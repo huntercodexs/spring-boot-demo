@@ -7,14 +7,14 @@ spec:
   replicas: 5
   selector:
     matchLabels:
-      app: spring-boot-demo--deployment_selector_label_app
+      app: spring-boot-demo--deployment-selector-label-app
   template:
     metadata:
       labels:
-        app: spring-boot-demo--deployment_template_label_app
+        app: spring-boot-demo--deployment-template-label-app
     spec:
       containers:
-        - name: spring-boot-demo--deployment_container
+        - name: spring-boot-demo--deployment-container
           image: romilbhai/spring-boot-app:latest
           ports:
             - containerPort: 38087
