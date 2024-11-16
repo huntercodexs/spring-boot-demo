@@ -7,7 +7,7 @@ pipeline {
     }
 
     environment {
-        DOCKER_IMAGE = "romilbhai/spring-boot-app"
+        DOCKER_IMAGE = "huntercodexs/spring-boot-demo"
         K8S_NAMESPACE = "spring-boot-demo--namespace"
         DOCKER_CREDENTIALS_ID = "docker-hub-cred-id"
         KUBECONFIG_CREDENTIALS_ID = "kube-config-cred-id"
@@ -33,8 +33,8 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    sh "docker build -t romilbhai/spring-boot-app:${env.BUILD_ID} ."
-                    sh "docker tag romilbhai/spring-boot-app:${env.BUILD_ID} huntercodexs/spring-boot-demo:latest"
+                    sh "docker build -t huntercodexs/spring-boot-demo:latest ."
+                    sh "docker tag huntercodexs/spring-boot-demo:latest huntercodexs/spring-boot-demo:latest"
                 }
             }
         }
@@ -43,11 +43,8 @@ pipeline {
             steps {
                 script {
                     withCredentials([string(credentialsId: 'docker-hub-cred-id', variable: 'DOCKER_PASSWORD')]) {
-                        sh
-                            """
-                            echo \$DOCKER_PASSWORD | docker login -u huntercodexs --password-stdin
-                            """
-                        sh "docker push huntercodexs/spring-boot-demo:${env.BUILD_ID}"
+                        sh "docker login -u huntercodexs -p ${DOCKER_PASSWORD}"
+                        sh "docker push huntercodexs/spring-boot-demo:latest"
                         sh "docker push huntercodexs/spring-boot-demo:latest"
                     }
                 }
@@ -58,8 +55,8 @@ pipeline {
             steps {
                 script {
                      kubeconfig(credentialsId: 'kube-config-cred-id', serverUrl: 'https://127.0.0.1:37525') {
-                        sh 'kubectl apply -f deployment.yaml -n ${env.K8S_NAMESPACE}'
-                        sh 'kubectl apply -f service.yaml -n ${env.K8S_NAMESPACE}'
+                        sh "kubectl apply -f deployment.yaml -n ${env.K8S_NAMESPACE}"
+                        sh "kubectl apply -f service.yaml -n ${env.K8S_NAMESPACE}"
                     }
                 }
             }
