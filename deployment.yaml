@@ -15,6 +15,6 @@ spec:
     spec:
       containers:
         - name: spring-boot-demo--deployment-container
-          image: romilbhai/spring-boot-app:latest
+          image: huntercodexs/spring-boot-demo:latest
           ports:
             - containerPort: 38087

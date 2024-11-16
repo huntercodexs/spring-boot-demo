@@ -29,7 +29,7 @@ pipeline {
             steps {
                 script {
                     sh "docker build -t romilbhai/spring-boot-app:${env.BUILD_ID} ."
-                    sh "docker tag romilbhai/spring-boot-app:${env.BUILD_ID} romilbhai/spring-boot-app:latest"
+                    sh "docker tag romilbhai/spring-boot-app:${env.BUILD_ID} huntercodexs/spring-boot-demo:latest"
                 }
             }
         }
