@@ -43,7 +43,7 @@ pipeline {
             steps {
                 script {
                     withCredentials([string(credentialsId: 'docker-hub-cred-id', variable: 'DOCKER_PASSWORD')]) {
-                        sh "docker login -u huntercodexs -p ${DOCKER_PASSWORD}"
+                        sh "echo $DOCKER_PASSWORD | docker login -u huntercodexs --password-stdin"
                         sh "docker push huntercodexs/spring-boot-demo:latest"
                         sh "docker push huntercodexs/spring-boot-demo:latest"
                     }
