@@ -57,7 +57,7 @@ pipeline {
         stage('Deploy to Kubernetes') {
             steps {
                 script {
-                     kubeconfig(credentialsId: 'kube-config-cred-id', serverUrl: 'https://192.168.0.24:37525') {
+                     kubeconfig(credentialsId: 'kube-config-cred-id', serverUrl: 'https://127.0.0.1:37525') {
                         sh 'kubectl apply -f deployment.yaml -n ${env.K8S_NAMESPACE}'
                         sh 'kubectl apply -f service.yaml -n ${env.K8S_NAMESPACE}'
                     }
