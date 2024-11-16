@@ -1,6 +1,11 @@
 pipeline {
     agent any
 
+    tools {
+        maven 'MAVEN_HOME'
+        jdk 'java17-native'
+    }
+
     environment {
         DOCKER_IMAGE = "romilbhai/spring-boot-app"
         K8S_NAMESPACE = "spring-boot-demo--namespace"
