@@ -4,8 +4,8 @@ pipeline {
     environment {
         DOCKER_IMAGE = "romilbhai/spring-boot-app"
         K8S_NAMESPACE = "spring-boot-demo--namespace"
-        DOCKER_CREDENTIALS_ID = 'docker-hub-cred-id' // Created in the Jenkins Credentials Security
-        KUBECONFIG_CREDENTIALS_ID = 'kube-config-cred-id' // Created in the Jenkins Credentials Security
+        DOCKER_CREDENTIALS_ID = "docker-hub-cred-id"
+        KUBECONFIG_CREDENTIALS_ID = "kube-config-cred-id"
     }
 
     stages {
@@ -38,12 +38,13 @@ pipeline {
             steps {
                 script {
                     withCredentials([string(credentialsId: 'docker-hub-cred-id', variable: 'DOCKER_PASSWORD')]) {
-                    sh
-                        """
-                        echo \$DOCKER_PASSWORD | docker login -u huntercodexs --password-stdin
-                        """
-                    sh "docker push huntercodexs/spring-boot-demo:${env.BUILD_ID}"
-                    sh "docker push huntercodexs/spring-boot-demo:latest"
+                        sh
+                            """
+                            echo \$DOCKER_PASSWORD | docker login -u huntercodexs --password-stdin
+                            """
+                        sh "docker push huntercodexs/spring-boot-demo:${env.BUILD_ID}"
+                        sh "docker push huntercodexs/spring-boot-demo:latest"
+                    }
                 }
             }
         }
