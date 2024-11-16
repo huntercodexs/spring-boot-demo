@@ -3,7 +3,7 @@ pipeline {
 
     tools {
         maven 'MAVEN_HOME'
-        jdk 'java17-native'
+        jdk 'java17-default'
     }
 
     environment {
