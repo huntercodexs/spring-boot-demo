@@ -7,11 +7,11 @@ spec:
   replicas: 5
   selector:
     matchLabels:
-      app: spring-boot-demo--deployment-selector-label-app
+      app: spring-boot-demo--selector-label-app
   template:
     metadata:
       labels:
-        app: spring-boot-demo--deployment-template-label-app
+        app: spring-boot-demo--selector-label-app
     spec:
       containers:
         - name: spring-boot-demo--deployment-container
