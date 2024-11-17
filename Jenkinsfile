@@ -7,10 +7,11 @@ pipeline {
     }
 
     environment {
+        DOCKER_USERNAME = "huntercodexs"
         DOCKER_IMAGE = "huntercodexs/spring-boot-demo"
+        DOCKER_CREDENTIALS_ID = credentials("docker-hub-cred-id")
         K8S_NAMESPACE = "spring-boot-demo--namespace"
-        DOCKER_CREDENTIALS_ID = "docker-hub-cred-id"
-        KUBECONFIG_CREDENTIALS_ID = "kube-config-cred-id"
+        KUBECONFIG_CREDENTIALS_ID = credentials("kube-config-cred-id")
     }
 
     stages {
@@ -33,8 +34,8 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    sh "docker build -t huntercodexs/spring-boot-demo:latest ."
-                    sh "docker tag huntercodexs/spring-boot-demo:latest huntercodexs/spring-boot-demo:latest"
+                    sh "docker build -t ${env.DOCKER_IMAGE}:latest ."
+                    sh "docker tag ${env.DOCKER_IMAGE}:latest ${env.DOCKER_IMAGE}:latest"
                 }
             }
         }
@@ -43,9 +44,9 @@ pipeline {
             steps {
                 script {
                     withCredentials([string(credentialsId: 'docker-hub-cred-id', variable: 'DOCKER_PASSWORD')]) {
-                        sh """echo \$DOCKER_PASSWORD | docker login -u huntercodexs --password-stdin"""
-                        sh "docker push huntercodexs/spring-boot-demo:latest"
-                        sh "docker push huntercodexs/spring-boot-demo:latest"
+                        sh """echo \$DOCKER_PASSWORD | docker login -u ${env.DOCKER_USERNAME} --password-stdin"""
+                        sh "docker push ${env.DOCKER_IMAGE}:latest"
+                        sh "docker push ${env.DOCKER_IMAGE}:latest"
                     }
                 }
             }
