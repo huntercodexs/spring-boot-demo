@@ -55,7 +55,9 @@ pipeline {
         stage('Deploy to Kubernetes') {
             steps {
                 script {
-                    kubeconfig(caCertificate: '''-----BEGIN CERTIFICATE-----
+                    kubeconfig(
+                    caCertificate: """
+                    -----BEGIN CERTIFICATE-----
                     MIIDBjCCAe6gAwIBAgIBATANBgkqhkiG9w0BAQsFADAVMRMwEQYDVQQDEwptaW5p
                     a3ViZUNBMB4XDTI0MTExNjE4MTEyNVoXDTM0MTExNTE4MTEyNVowFTETMBEGA1UE
                     AxMKbWluaWt1YmVDQTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAJny
@@ -73,10 +75,14 @@ pipeline {
                     s+h2vIUbV1dLxmwSSbcsYq4p9qbqeKOfkkWhTJ8+XmH16EkDh2aQ4cmld4hnbIor
                     Runw8h12/dmNKlUnpe5/oXHA7U9WrPFzmIc00LwvD2QksoG9czmr5CatUp2ThBdd
                     CrOGb6WwnuyKaA==
-                    -----END CERTIFICATE-----''', credentialsId: 'minikube-config-cacert', serverUrl: 'http://127.0.0.1:36751')
+                    -----END CERTIFICATE-----
+                    """,
+                    credentialsId: 'minikube-config-cacert',
+                    serverUrl: 'http://127.0.0.1:36751')
                     {
                         sh "kubectl apply -f deployment.yaml -n ${env.K8S_NAMESPACE}"
                         sh "kubectl apply -f service.yaml -n ${env.K8S_NAMESPACE}"
+                    }
                 }
             }
         }
