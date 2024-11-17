@@ -4,8 +4,6 @@ metadata:
   name: spring-boot-demo--service
   namespace: spring-boot-demo--namespace
 spec:
-  securityContext:
-    runAsUser: 1000
   selector:
     app: spring-boot-demo--selector-label-app
   ports:

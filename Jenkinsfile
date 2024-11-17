@@ -55,10 +55,28 @@ pipeline {
         stage('Deploy to Kubernetes') {
             steps {
                 script {
-                     kubeconfig(credentialsId: 'kube-config-cred-id', serverUrl: 'https://127.0.0.1:37525') {
+                    kubeconfig(caCertificate: '''-----BEGIN CERTIFICATE-----
+                    MIIDBjCCAe6gAwIBAgIBATANBgkqhkiG9w0BAQsFADAVMRMwEQYDVQQDEwptaW5p
+                    a3ViZUNBMB4XDTI0MTExNjE4MTEyNVoXDTM0MTExNTE4MTEyNVowFTETMBEGA1UE
+                    AxMKbWluaWt1YmVDQTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAJny
+                    Pzn2BHxfrE7c4f/RO+S7qAtkVAxgdi5WuqjyuL5QHOhujh7JXwl1RQlaTarQ+hSw
+                    K+8PKUg+Wlt8HWUWAku/rb8Nc/jEVmYEMifgd3slAZWIdz7EYbKJJpKbc7lcJIdW
+                    v4AWHGd0WW1aG3/MBdKuWpjT88OiZ7xkeL6KrEzfmSLPCPT3/jsbJo4bwi+mNbZL
+                    NAI2U6dWhu3e7ojIuCAVQ1vT7SlP9yj4NMATRNkbb5gWQohCpRn/ZZI90O/EbV3J
+                    47HHopiQwdt9/I9MfZTvWQvxjr2zvojknVD4PteSpje2F7HwHjHV2Mzi6DtsolWW
+                    xMy/emPnsG3ZMm8nY8cCAwEAAaNhMF8wDgYDVR0PAQH/BAQDAgKkMB0GA1UdJQQW
+                    MBQGCCsGAQUFBwMCBggrBgEFBQcDATAPBgNVHRMBAf8EBTADAQH/MB0GA1UdDgQW
+                    BBS2k2Lmj+/7CvCBzKLNffR0r9Nj3DANBgkqhkiG9w0BAQsFAAOCAQEAJFH4pot4
+                    7rTrjI52HQlg5JbmYAe+StduPVtP2qzhkyckQ4jTVMzJ9qYnTu/44mD3NQoTJ3LE
+                    H5IfEFYmQGCsa/l4PYXXP5tjNVDOfeKY/F1zEK3tGsS5lH0r0kzT1wEJYk8XlHBZ
+                    cgX7eq5ChEGT7OqeWGTWRqSlfU3nvVLk7h79+Mc4Kf8B58OMjGsTT+bNWsJ3sI7w
+                    s+h2vIUbV1dLxmwSSbcsYq4p9qbqeKOfkkWhTJ8+XmH16EkDh2aQ4cmld4hnbIor
+                    Runw8h12/dmNKlUnpe5/oXHA7U9WrPFzmIc00LwvD2QksoG9czmr5CatUp2ThBdd
+                    CrOGb6WwnuyKaA==
+                    -----END CERTIFICATE-----''', credentialsId: 'minikube-config-cacert', serverUrl: 'http://127.0.0.1:36751')
+                    {
                         sh "kubectl apply -f deployment.yaml -n ${env.K8S_NAMESPACE}"
                         sh "kubectl apply -f service.yaml -n ${env.K8S_NAMESPACE}"
-                    }
                 }
             }
         }
