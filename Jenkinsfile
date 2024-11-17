@@ -78,7 +78,7 @@ pipeline {
                     -----END CERTIFICATE-----
                     """,
                     credentialsId: 'minikube-config-cacert',
-                    serverUrl: 'http://127.0.0.1:45377')
+                    serverUrl: 'http://127.0.0.1:38327')
                     {
                         sh "kubectl apply -f deployment.yaml -n ${env.K8S_NAMESPACE}"
                         sh "kubectl apply -f service.yaml -n ${env.K8S_NAMESPACE}"
